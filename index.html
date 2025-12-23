@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RightChoise - Boutique Premium</title>
+    <title>RightChoise - Boutique</title>
     <style>
         :root {
             --main-bg: #ffffff;
@@ -12,61 +12,37 @@
             --dark-blue: #001a33;
         }
 
-        body {
-            background-color: var(--main-bg);
-            color: var(--dark-blue);
-            font-family: 'Segoe UI', Roboto, sans-serif;
-            margin: 0; padding: 0;
-        }
+        body { background-color: var(--main-bg); color: var(--dark-blue); font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; }
 
-        /* --- HEADER : LOGO ÉLARGI HORIZONTALEMENT --- */
         header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #ffffff;
-            border-bottom: 3px solid var(--accent-orange);
-            position: sticky; top: 0; z-index: 1000;
-            height: 80px; /* Légèrement plus haut pour l'équilibre */
+            display: flex; align-items: center; justify-content: center;
+            background: #ffffff; border-bottom: 3px solid var(--accent-orange);
+            position: sticky; top: 0; z-index: 1000; height: 80px;
         }
 
-        .logo-container { 
-            height: 100%; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            width: 300px; /* Largeur augmentée pour l'étalement */
-        }
+        .logo-container { height: 100%; display: flex; justify-content: center; align-items: center; width: 300px; }
+        .logo-container img { width: 100%; max-height: 65px; object-fit: contain; }
 
-        .logo-container img { 
-            width: 100%; /* Prend toute la largeur disponible du container */
-            max-height: 65px; /* Reste bien dans la case orange sans toucher */
-            object-fit: contain; /* Garde les proportions sans déformer */
-        }
-
+        /* --- BOUTON PANIER AVEC TEXTE --- */
         .cart-btn {
-            position: absolute; right: 15px;
-            background: var(--accent-orange);
-            color: #ffffff !important; border: none;
-            padding: 10px 15px; border-radius: 10px;
-            cursor: pointer; font-weight: bold;
+            position: absolute; right: 15px; background: var(--accent-orange);
+            color: white; border: none; padding: 10px 15px; border-radius: 10px; 
+            cursor: pointer; font-weight: bold; display: flex; align-items: center; gap: 8px;
         }
 
-        /* --- LE RESTE DU STYLE (Inchangé pour la sécurité) --- */
         #custom-alert {
-            display: none; position: fixed; top: 90px; left: 50%;
-            transform: translateX(-50%); min-width: 280px; background: #ffffff;
-            padding: 15px; border-radius: 8px; text-align: center; font-weight: bold; 
-            z-index: 9999; box-shadow: 0 5px 20px rgba(0,0,0,0.15); border-left: 5px solid var(--accent-orange);
+            display: none; position: fixed; top: 90px; left: 50%; transform: translateX(-50%);
+            min-width: 280px; background: white; padding: 15px; border-radius: 8px;
+            text-align: center; font-weight: bold; z-index: 9999; border-left: 5px solid var(--accent-orange);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
         }
 
         .container { padding: 30px 10px; display: flex; flex-direction: column; align-items: center; }
         .grid { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; width: 100%; max-width: 1200px; }
 
         .card {
-            background: var(--card-bg); border: 1px solid #eeeeee;
-            width: 100%; max-width: 380px; border-radius: 20px; 
-            overflow: hidden; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            background: var(--card-bg); border: 1px solid #eeeeee; width: 100%; max-width: 380px;
+            border-radius: 20px; overflow: hidden; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
 
         .slider-container { position: relative; width: 100%; height: 350px; background: #fff; }
@@ -75,8 +51,7 @@
 
         .nav-btn {
             position: absolute; top: 50%; transform: translateY(-50%);
-            background: rgba(0, 0, 0, 0.5); color: white; border: none;
-            width: 35px; height: 35px; border-radius: 50%; cursor: pointer; z-index: 5;
+            background: rgba(0,0,0,0.5); color: white; border: none; width: 35px; height: 35px; border-radius: 50%; cursor: pointer;
         }
         .prev { left: 10px; } .next { right: 10px; }
 
@@ -84,25 +59,34 @@
         .price { color: var(--accent-orange); font-size: 2rem; font-weight: 900; margin: 10px 0; }
         
         .btn-add {
-            background: var(--accent-orange); color: #ffffff !important; border: none;
-            width: 100%; padding: 16px; border-radius: 12px; cursor: pointer; font-weight: bold;
+            background: var(--accent-orange); color: white; border: none; width: 100%;
+            padding: 16px; border-radius: 12px; cursor: pointer; font-weight: bold; text-transform: uppercase;
         }
 
-        .color-selector { display: flex; justify-content: center; gap: 12px; margin: 15px 0; }
-        .dot { width: 30px; height: 30px; border-radius: 50%; border: 2px solid #eee; cursor: pointer; transition: 0.2s; }
-        .dot.selected { border: 3px solid var(--dark-blue) !important; transform: scale(1.2); }
+        .color-selector { display: flex; justify-content: center; gap: 12px; margin: 15px 0; flex-wrap: wrap; }
+        .dot { width: 30px; height: 30px; border-radius: 50%; border: 2px solid #eee; cursor: pointer; position: relative; }
+        .dot.selected { border: 3px solid var(--dark-blue); transform: scale(1.2); }
+        .dot-count { position: absolute; top: -10px; right: -10px; background: var(--accent-orange); color: white; font-size: 10px; padding: 2px 5px; border-radius: 50%; display: none; }
 
         .black { background: #000; } .white { background: #fff; border: 1px solid #ccc; }
         .pink { background: #ffc0cb; } .blue { background: #0000ff; } .gray { background: #888; }
 
-        #cart-modal, #checkout-page {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5); z-index: 2000;
+        .offer-select { margin-bottom: 15px; padding: 12px; border-radius: 10px; border: 2px solid var(--accent-orange); width: 100%; font-weight: bold; cursor: pointer; }
+
+        #cart-modal, #checkout-page { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; }
+        .modal-content { background: white; width: 90%; max-width: 400px; margin: 50px auto; padding: 25px; border-radius: 20px; text-align: center; }
+
+        .cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
+        
+        .del-btn { 
+            color: var(--accent-orange); 
+            cursor: pointer; 
+            font-weight: bold; 
+            font-size: 1.4rem; 
+            margin-left: 15px;
+            transition: 0.2s;
         }
-        .modal-content {
-            background: #fff; width: 90%; max-width: 400px; margin: 50px auto;
-            padding: 25px; border-radius: 20px; text-align: center;
-        }
+        
         input, select { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
     </style>
 </head>
@@ -111,28 +95,25 @@
     <div id="custom-alert"></div>
 
     <header>
-        <div class="logo-container">
-            <img src="rightchoise.jpg" alt="Logo">
-        </div>
-        <button class="cart-btn" onclick="toggleCart()">🛒 (<span id="cart-count">0</span>)</button>
+        <div class="logo-container"><img src="rightchoise.jpg" alt="Logo"></div>
+        <button class="cart-btn" onclick="toggleCart()">
+            🛒 Mon Panier (<span id="cart-count">0</span>)
+        </button>
     </header>
 
     <div class="container">
         <div class="grid">
             <div class="card" id="p1">
                 <div class="slider-container">
-                    <img src="1a.jpg" class="active">
-                    <img src="1b.jpg">
-                    <img src="1c.jpg">
+                    <img src="1a.jpg" class="active"><img src="1b.jpg"><img src="1c.jpg">
                     <button class="nav-btn prev" onclick="changeSlide('p1', -1)">❮</button>
                     <button class="nav-btn next" onclick="changeSlide('p1', 1)">❯</button>
                 </div>
                 <div class="info">
-                    <h2>SUPPORT TÉLÉPHONE PC</h2>
-                    <p class="price">1300 DA</p>
+                    <h2>SUPPORT TÉLÉPHONE PC</h2><p class="price">1300 DA</p>
                     <div class="color-selector">
-                        <div class="dot black" data-color="Noir" onclick="selectColor(this)"></div>
-                        <div class="dot gray" data-color="Gris" onclick="selectColor(this)"></div>
+                        <div class="dot black" data-color="Noir" onclick="selectColor(this, 1)"></div>
+                        <div class="dot gray" data-color="Gris" onclick="selectColor(this, 1)"></div>
                     </div>
                     <button class="btn-add" onclick="addToCart('Support Téléphone', 1300, 'p1')">AJOUTER AU PANIER</button>
                 </div>
@@ -140,40 +121,35 @@
 
             <div class="card" id="p2">
                 <div class="slider-container">
-                    <img src="2a.jpg" class="active">
-                    <img src="2b.jpg">
+                    <img src="2a.jpg" class="active"><img src="2b.jpg">
                     <button class="nav-btn prev" onclick="changeSlide('p2', -1)">❮</button>
                     <button class="nav-btn next" onclick="changeSlide('p2', 1)">❯</button>
                 </div>
                 <div class="info">
-                    <h2>ORGANISATEUR CÂBLES</h2>
-                    <p class="price">1300 DA</p>
-                    <div class="color-selector">
-                        <div class="dot black" data-color="Noir" onclick="selectColor(this)"></div>
-                    </div>
-                    <button class="btn-add" onclick="addToCart('Organisateur Câbles', 1300, 'p2')">AJOUTER AU PANIER</button>
+                    <h2>ORGANISATEUR CÂBLES</h2><p class="price">1300 DA</p>
+                    <button class="btn-add" onclick="addToCart('Organisateur Câbles', 1300, 'p2', true)">AJOUTER AU PANIER</button>
                 </div>
             </div>
 
             <div class="card" id="p3">
                 <div class="slider-container">
-                    <img src="3a.jpg" class="active">
-                    <img src="3b.jpg">
-                    <img src="3c.jpg">
-                    <img src="3d.jpg">
+                    <img src="3a.jpg" class="active"><img src="3b.jpg"><img src="3c.jpg"><img src="3d.jpg">
                     <button class="nav-btn prev" onclick="changeSlide('p3', -1)">❮</button>
                     <button class="nav-btn next" onclick="changeSlide('p3', 1)">❯</button>
                 </div>
                 <div class="info">
-                    <h2>SUCCION PAD PREMIUM</h2>
-                    <p class="price">1000 DA</p>
+                    <h2>SUCCION PAD</h2>
+                    <select class="offer-select" id="offer-p3" onchange="resetColors('p3')">
+                        <option value="600" data-qty="1">1 Unité - 600 DA</option>
+                        <option value="1000" data-qty="2">2 Unités - 1000 DA (PROMO)</option>
+                    </select>
                     <div class="color-selector">
-                        <div class="dot black" data-color="Noir" onclick="selectColor(this)"></div>
-                        <div class="dot white" data-color="Blanc" onclick="selectColor(this)"></div>
-                        <div class="dot pink" data-color="Rose" onclick="selectColor(this)"></div>
-                        <div class="dot blue" data-color="Bleu" onclick="selectColor(this)"></div>
+                        <div class="dot black" data-color="Noir" onclick="selectColor(this, getTargetQty('p3'))"><span class="dot-count">0</span></div>
+                        <div class="dot white" data-color="Blanc" onclick="selectColor(this, getTargetQty('p3'))"><span class="dot-count">0</span></div>
+                        <div class="dot pink" data-color="Rose" onclick="selectColor(this, getTargetQty('p3'))"><span class="dot-count">0</span></div>
+                        <div class="dot blue" data-color="Bleu" onclick="selectColor(this, getTargetQty('p3'))"><span class="dot-count">0</span></div>
                     </div>
-                    <button class="btn-add" onclick="addToCart('Succion Pad', 1000, 'p3')">AJOUTER AU PANIER</button>
+                    <button class="btn-add" onclick="addSuccionPad()">AJOUTER AU PANIER</button>
                 </div>
             </div>
         </div>
@@ -181,11 +157,11 @@
 
     <div id="cart-modal">
         <div class="modal-content">
-            <h3>PANIER</h3>
-            <div id="cart-list" style="text-align:left; margin-bottom:15px;"></div>
+            <h3>VOTRE PANIER</h3>
+            <div id="cart-list"></div>
             <p>Total: <b><span id="cart-total">0</span> DA</b></p>
-            <button class="btn-add" onclick="showCheckout()">COMMANDER</button>
-            <button onclick="toggleCart()" style="background:none; border:none; margin-top:10px; cursor:pointer;">Annuler</button>
+            <button class="btn-add" onclick="showCheckout()">VALIDER LA COMMANDE</button>
+            <button onclick="toggleCart()" style="background:none; border:none; margin-top:10px; cursor:pointer; color:#777">Fermer</button>
         </div>
     </div>
 
@@ -198,13 +174,13 @@
                 <input type="tel" id="user-tel" name="Tel" placeholder="Numéro de téléphone" required>
                 <select id="wilaya-select" name="Wilaya" required></select>
                 <input type="text" name="Commune" placeholder="Commune" required>
-                <button type="submit" class="btn-add">CONFIRMER</button>
+                <button type="submit" class="btn-add">CONFIRMER L'ACHAT</button>
             </form>
         </div>
     </div>
 
     <script>
-        const wilayas = ["01 Adrar","02 Chlef","03 Laghouat","04 Oum El Bouaghi","05 Batna","06 Béjaïa","07 Biskra","08 Béchar","09 Blida","10 Bouira","11 Tamanrasset","12 Tébessa","13 Tlemcen","14 Tiaret","15 Tizi Ouzou","16 Alger","17 Djelfa","18 Jijel","19 Sétif","20 Saïda","21 Skikda","22 Sidi Bel Abbès","23 Annaba","24 Guelma","25 Constantine","26 Médéa","27 Mostaganem","28 M'Sila","29 Mascara","30 Ouargla","31 Oran","32 El Bayadh","33 Illizi","34 Bordj Bou Arreridj","35 Boumerdès","36 El Tarf","37 Tindouf","38 Tissemsilt","39 El Oued","40 Khenchela","41 Souk Ahras","42 Tipaza","43 Mila","44 Aïn Defla","45 Naâma","46 Aïn Témouchent","47 Ghardaïa","48 Relizane","49 El M'Ghair","50 El Meniaa","51 Ouled Djellal","52 Bordj Baji Mokhtar","53 Béni Abbès","54 Timimoun","55 Touggourt","56 Djanet","57 In Salah","58 In Guezzam"];
+        const wilayas = ["01 Adrar","02 Chlef","03 Laghouat","04 Oum El Bouaghi","05 Batna","06 Béjaïa","07 Biskra","08 Béchar","09 Blida","10 Bouira","11 Tamanrasset","12 Tébessa","13 Tlemcen","14 Tiaret","15 Tizi Ouzou","16 Alger","17 Djelfa","18 Jijel","19 Sétif","20 Saïda","21 Skikda","22 Sidi Bel Abbès","23 Annaba","24 Guelma","25 Constantine","26 Médéa","27 Mostaganem","28 M'Sila","29 Mascara","30 Ouargla","31 Oran","32 El Bayadh","33 Illizi","34 Bordj Bou Arreridj","35 Tandouf","36 El Tarf","37 Tindouf","38 Tissemsilt","39 El Oued","40 Khenchela","41 Souk Ahras","42 Tipaza","43 Mila","44 Aïn Defla","45 Naâma","46 Aïn Témouchent","47 Ghardaïa","48 Relizane","49 El M'Ghair","50 El Meniaa","51 Ouled Djellal","52 Bordj Baji Mokhtar","53 Béni Abbès","54 Timimoun","55 Touggourt","56 Djanet","57 In Salah","58 In Guezzam"];
         const ws = document.getElementById('wilaya-select');
         wilayas.forEach(w => { let o = document.createElement('option'); o.value=w; o.text=w; ws.add(o); });
 
@@ -212,15 +188,45 @@
 
         function notify(txt, color = "#ff8800") {
             const b = document.getElementById('custom-alert');
-            b.innerHTML = txt; b.style.display = 'block';
-            b.style.borderLeftColor = color;
+            b.innerHTML = txt; b.style.display = 'block'; b.style.borderLeftColor = color;
             setTimeout(() => b.style.display = 'none', 3000);
         }
 
-        function selectColor(el) {
+        function getTargetQty(id) {
+            const select = document.getElementById('offer-' + id);
+            return select ? parseInt(select.options[select.selectedIndex].dataset.qty) : 1;
+        }
+
+        function selectColor(el, max) {
             const p = el.parentElement;
-            p.querySelectorAll('.dot').forEach(d => d.classList.remove('selected'));
-            el.classList.add('selected');
+            if (max === 1) {
+                p.querySelectorAll('.dot').forEach(d => d.classList.remove('selected'));
+                el.classList.add('selected');
+            } else {
+                let currentSelected = 0;
+                p.querySelectorAll('.dot').forEach(d => {
+                    let count = parseInt(d.querySelector('.dot-count').innerText);
+                    currentSelected += count;
+                });
+                if (currentSelected < max) {
+                    let badge = el.querySelector('.dot-count');
+                    let count = parseInt(badge.innerText) + 1;
+                    badge.innerText = count;
+                    badge.style.display = 'block';
+                    el.classList.add('selected');
+                } else {
+                    notify("2 couleurs déjà sélectionnées", "orange");
+                }
+            }
+        }
+
+        function resetColors(id) {
+            const card = document.getElementById(id);
+            card.querySelectorAll('.dot').forEach(d => {
+                d.classList.remove('selected');
+                let badge = d.querySelector('.dot-count');
+                if(badge) { badge.innerText = "0"; badge.style.display = 'none'; }
+            });
         }
 
         function changeSlide(id, dir) {
@@ -232,13 +238,44 @@
             imgs[idx].classList.add('active');
         }
 
-        function addToCart(name, price, id) {
-            const card = document.getElementById(id);
-            const dot = card.querySelector('.dot.selected');
-            if(!dot) { notify("⚠️ CHOISISSEZ UNE COULEUR", "red"); return; }
-            cart.push({name, price, color: dot.getAttribute('data-color')});
-            document.getElementById('cart-count').innerText = cart.length;
+        function addToCart(name, price, id, noColor = false) {
+            let color = "Standard";
+            if(!noColor) {
+                const dot = document.querySelector(`#${id} .dot.selected`);
+                if(!dot) { notify("⚠️ CHOISISSEZ UNE COULEUR", "red"); return; }
+                color = dot.getAttribute('data-color');
+            }
+            cart.push({name, price, color});
+            updateCartUI();
             notify("AJOUTÉ ✅", "green");
+        }
+
+        function addSuccionPad() {
+            const select = document.getElementById('offer-p3');
+            const price = parseInt(select.value);
+            const qty = parseInt(select.options[select.selectedIndex].dataset.qty);
+            let colors = [];
+            const dots = document.querySelectorAll('#p3 .dot');
+            dots.forEach(d => {
+                let count = parseInt(d.querySelector('.dot-count').innerText);
+                if (qty === 1 && d.classList.contains('selected')) colors.push(d.dataset.color);
+                else for(let i=0; i<count; i++) colors.push(d.dataset.color);
+            });
+            if(colors.length < qty) { notify(`⚠️ CHOISISSEZ ${qty} COULEUR(S)`, "red"); return; }
+            cart.push({name: `Succion Pad (x${qty})`, price: price, color: colors.join(' + ')});
+            updateCartUI();
+            resetColors('p3');
+            notify("PACK AJOUTÉ ✅", "green");
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            document.getElementById('cart-count').innerText = cart.length;
+            renderCart();
         }
 
         function toggleCart() {
@@ -250,9 +287,16 @@
         function renderCart() {
             const l = document.getElementById('cart-list');
             let t = 0; l.innerHTML = ""; let sum = "";
-            cart.forEach(i => {
-                l.innerHTML += `<div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span>${i.name} (${i.color})</span><span>${i.price} DA</span></div>`;
-                t += i.price; sum += i.name + " (" + i.color + ") / ";
+            cart.forEach((i, index) => {
+                l.innerHTML += `
+                    <div class="cart-item">
+                        <div style="text-align:left"><b>${i.name}</b><br><small>Couleur: ${i.color}</small></div>
+                        <div style="display:flex; align-items:center;">
+                            <b>${i.price} DA</b> 
+                            <span class="del-btn" onclick="removeFromCart(${index})">✖</span>
+                        </div>
+                    </div>`;
+                t += i.price; sum += `${i.name} (${i.color}) / `;
             });
             document.getElementById('cart-total').innerText = t;
             document.getElementById('form-details').value = sum + " TOTAL: " + t + " DA";
@@ -269,7 +313,7 @@
             const tel = document.getElementById('user-tel').value.trim();
             if (!/^(05|06|07)[0-9]{8}$/.test(tel)) { alert("Numéro invalide"); return; }
             fetch(e.target.action, { method: 'POST', body: new FormData(e.target), headers: { 'Accept': 'application/json' } })
-            .then(res => { if(res.ok) location.reload(); });
+            .then(res => { if(res.ok) { notify("COMMANDE REÇUE !"); location.reload(); } });
         }
     </script>
 </body>
