@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" id="main-html">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RightChoise - Boutique</title>
+    <title>RightChoise - Boutique Officielle</title>
     <style>
         :root {
             --main-bg: #ffffff;
@@ -12,42 +12,29 @@
             --dark-blue: #001a33;
         }
 
-        body { background-color: var(--main-bg); color: var(--dark-blue); font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; }
+        body { background-color: var(--main-bg); color: var(--dark-blue); font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; transition: 0.3s; }
+        [dir="rtl"] body { font-family: 'Arial', sans-serif; }
 
-        /* --- HEADER : LOGO À GAUCHE --- */
         header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between; /* Espace entre logo et panier */
-            background: #ffffff;
-            border-bottom: 3px solid var(--accent-orange);
-            position: sticky; top: 0; z-index: 1000;
-            height: 80px;
-            padding: 0 15px; /* Marge sur les côtés */
+            display: flex; align-items: center; justify-content: space-between;
+            background: #ffffff; border-bottom: 3px solid var(--accent-orange);
+            position: sticky; top: 0; z-index: 1000; height: 80px; padding: 0 15px;
         }
 
-        .logo-container { 
-            height: 100%; 
-            display: flex; 
-            align-items: center; 
-            width: 300px; /* Garde la même dimension horizontale */
-            justify-content: flex-start; /* Aligne le logo à gauche dans son bac */
-        }
+        .logo-container { height: 100%; display: flex; align-items: center; width: 200px; justify-content: flex-start; }
+        .logo-container img { width: 100%; max-height: 55px; object-fit: contain; }
 
-        .logo-container img { 
-            width: 100%; 
-            max-height: 65px; 
-            object-fit: contain; 
+        .header-controls { display: flex; align-items: center; gap: 10px; }
+
+        .lang-btn {
+            background: #eee; border: 1px solid #ccc; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-weight: bold;
         }
 
         .cart-btn {
-            background: var(--accent-orange);
-            color: white; border: none; padding: 10px 15px; border-radius: 10px; 
-            cursor: pointer; font-weight: bold; display: flex; align-items: center; gap: 8px;
-            flex-shrink: 0;
+            background: var(--accent-orange); color: white; border: none; padding: 10px 15px; border-radius: 10px; 
+            cursor: pointer; font-weight: bold; display: flex; align-items: center; gap: 8px; flex-shrink: 0;
         }
 
-        /* --- NOTIFICATIONS --- */
         #custom-alert {
             display: none; position: fixed; top: 90px; left: 50%; transform: translateX(-50%);
             min-width: 280px; background: white; padding: 15px; border-radius: 8px;
@@ -55,34 +42,23 @@
             box-shadow: 0 5px 20px rgba(0,0,0,0.1);
         }
 
-        /* --- GRILLE PRODUITS --- */
         .container { padding: 30px 10px; display: flex; flex-direction: column; align-items: center; }
         .grid { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; width: 100%; max-width: 1200px; }
 
-        .card {
-            background: var(--card-bg); border: 1px solid #eeeeee; width: 100%; max-width: 380px;
-            border-radius: 20px; overflow: hidden; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        }
+        .card { background: var(--card-bg); border: 1px solid #eeeeee; width: 100%; max-width: 380px; border-radius: 20px; overflow: hidden; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
 
         .slider-container { position: relative; width: 100%; height: 350px; background: #fff; }
         .slider-container img { width: 100%; height: 100%; object-fit: contain; display: none; }
         .slider-container img.active { display: block; }
 
-        .nav-btn {
-            position: absolute; top: 50%; transform: translateY(-50%);
-            background: rgba(0,0,0,0.5); color: white; border: none; width: 35px; height: 35px; border-radius: 50%; cursor: pointer;
-        }
+        .nav-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: white; border: none; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; }
         .prev { left: 10px; } .next { right: 10px; }
 
         .info { padding: 20px; text-align: center; }
         .price { color: var(--accent-orange); font-size: 2rem; font-weight: 900; margin: 10px 0; }
         
-        .btn-add {
-            background: var(--accent-orange); color: white; border: none; width: 100%;
-            padding: 16px; border-radius: 12px; cursor: pointer; font-weight: bold; text-transform: uppercase;
-        }
+        .btn-add { background: var(--accent-orange); color: white; border: none; width: 100%; padding: 16px; border-radius: 12px; cursor: pointer; font-weight: bold; text-transform: uppercase; }
 
-        /* --- SELECTEUR COULEURS --- */
         .color-selector { display: flex; justify-content: center; gap: 12px; margin: 15px 0; flex-wrap: wrap; }
         .dot { width: 30px; height: 30px; border-radius: 50%; border: 2px solid #eee; cursor: pointer; position: relative; }
         .dot.selected { border: 3px solid var(--dark-blue); transform: scale(1.2); }
@@ -93,34 +69,29 @@
 
         .offer-select { margin-bottom: 15px; padding: 12px; border-radius: 10px; border: 2px solid var(--accent-orange); width: 100%; font-weight: bold; cursor: pointer; }
 
-        /* --- MODALS --- */
         #cart-modal, #checkout-page { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; }
         .modal-content { background: white; width: 90%; max-width: 400px; margin: 50px auto; padding: 25px; border-radius: 20px; text-align: center; }
 
         .cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
-        
-        .del-btn { 
-            color: var(--accent-orange); 
-            cursor: pointer; 
-            font-weight: bold; 
-            font-size: 1.4rem; 
-            margin-left: 15px;
-        }
+        .del-btn { color: var(--accent-orange); cursor: pointer; font-weight: bold; font-size: 1.4rem; margin-left: 15px; }
         
         input, select { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        .confirm-note { background: #fff4e6; padding: 10px; border-radius: 8px; margin: 15px 0; font-size: 0.9rem; border: 1px dashed var(--accent-orange); text-align: left; }
+        [dir="rtl"] .confirm-note { text-align: right; }
     </style>
 </head>
-<body>
+<body dir="ltr">
 
     <div id="custom-alert"></div>
 
     <header>
-        <div class="logo-container">
-            <img src="rightchoise.jpg" alt="Logo">
+        <div class="logo-container"><img src="rightchoise.jpg" alt="Logo"></div>
+        <div class="header-controls">
+            <button class="lang-btn" onclick="toggleLang()">AR/FR</button>
+            <button class="cart-btn" onclick="toggleCart()">
+                🛒 <span data-t="my_cart">Mon Panier</span> (<span id="cart-count">0</span>)
+            </button>
         </div>
-        <button class="cart-btn" onclick="toggleCart()">
-            🛒 Mon Panier (<span id="cart-count">0</span>)
-        </button>
     </header>
 
     <div class="container">
@@ -132,12 +103,12 @@
                     <button class="nav-btn next" onclick="changeSlide('p1', 1)">❯</button>
                 </div>
                 <div class="info">
-                    <h2>SUPPORT TÉLÉPHONE PC</h2><p class="price">1300 DA</p>
+                    <h2 data-t="p1_title">SUPPORT TÉLÉPHONE PC</h2><p class="price">1300 DA</p>
                     <div class="color-selector">
                         <div class="dot black" data-color="Noir" onclick="selectColor(this, 1)"></div>
                         <div class="dot gray" data-color="Gris" onclick="selectColor(this, 1)"></div>
                     </div>
-                    <button class="btn-add" onclick="addToCart('Support Téléphone', 1300, 'p1')">AJOUTER AU PANIER</button>
+                    <button class="btn-add" data-t="add_to_cart" onclick="addToCart('Support Téléphone', 1300, 'p1')">AJOUTER AU PANIER</button>
                 </div>
             </div>
 
@@ -148,8 +119,8 @@
                     <button class="nav-btn next" onclick="changeSlide('p2', 1)">❯</button>
                 </div>
                 <div class="info">
-                    <h2>ORGANISATEUR CÂBLES</h2><p class="price">1300 DA</p>
-                    <button class="btn-add" onclick="addToCart('Organisateur Câbles', 1300, 'p2', true)">AJOUTER AU PANIER</button>
+                    <h2 data-t="p2_title">ORGANISATEUR CÂBLES</h2><p class="price">1300 DA</p>
+                    <button class="btn-add" data-t="add_to_cart" onclick="addToCart('Organisateur Câbles', 1300, 'p2', true)">AJOUTER AU PANIER</button>
                 </div>
             </div>
 
@@ -162,8 +133,8 @@
                 <div class="info">
                     <h2>SUCCION PAD</h2>
                     <select class="offer-select" id="offer-p3" onchange="resetColors('p3')">
-                        <option value="600" data-qty="1">1 Unité - 600 DA</option>
-                        <option value="1000" data-qty="2">2 Unités - 1000 DA (PROMO)</option>
+                        <option value="600" data-qty="1" data-t="offer_1">1 Unité - 600 DA</option>
+                        <option value="1000" data-qty="2" data-t="offer_2">2 Unités - 1000 DA (PROMO)</option>
                     </select>
                     <div class="color-selector">
                         <div class="dot black" data-color="Noir" onclick="selectColor(this, getTargetQty('p3'))"><span class="dot-count">0</span></div>
@@ -171,7 +142,7 @@
                         <div class="dot pink" data-color="Rose" onclick="selectColor(this, getTargetQty('p3'))"><span class="dot-count">0</span></div>
                         <div class="dot blue" data-color="Bleu" onclick="selectColor(this, getTargetQty('p3'))"><span class="dot-count">0</span></div>
                     </div>
-                    <button class="btn-add" onclick="addSuccionPad()">AJOUTER AU PANIER</button>
+                    <button class="btn-add" data-t="add_to_cart" onclick="addSuccionPad()">AJOUTER AU PANIER</button>
                 </div>
             </div>
         </div>
@@ -179,29 +150,64 @@
 
     <div id="cart-modal">
         <div class="modal-content">
-            <h3>VOTRE PANIER</h3>
+            <h3 data-t="my_cart_title">VOTRE PANIER</h3>
             <div id="cart-list"></div>
-            <p>Total: <b><span id="cart-total">0</span> DA</b></p>
-            <button class="btn-add" onclick="showCheckout()">VALIDER LA COMMANDE</button>
-            <button onclick="toggleCart()" style="background:none; border:none; margin-top:10px; cursor:pointer; color:#777">Fermer</button>
+            <p><span data-t="total">Total</span>: <b><span id="cart-total">0</span> DA</b></p>
+            <button class="btn-add" data-t="checkout_btn" onclick="showCheckout()">VALIDER LA COMMANDE</button>
+            <button onclick="toggleCart()" style="background:none; border:none; margin-top:10px; cursor:pointer; color:#777" data-t="close">Fermer</button>
         </div>
     </div>
 
     <div id="checkout-page">
         <div class="modal-content">
-            <h3>LIVRAISON</h3>
+            <h3 data-t="delivery">LIVRAISON</h3>
             <form id="orderForm" action="https://formspree.io/f/mbdrlqny" method="POST" onsubmit="handleFormSubmit(event)">
                 <input type="hidden" name="Commande" id="form-details">
-                <input type="text" name="Nom" placeholder="Nom Complet" required>
+                <input type="text" name="Nom" id="input-name" placeholder="Nom Complet" required>
                 <input type="tel" id="user-tel" name="Tel" placeholder="Numéro de téléphone" required>
                 <select id="wilaya-select" name="Wilaya" required></select>
-                <input type="text" name="Commune" placeholder="Commune" required>
-                <button type="submit" class="btn-add">CONFIRMER L'ACHAT</button>
+                <input type="text" name="Commune" id="input-commune" placeholder="Commune" required>
+                
+                <div class="confirm-note" data-t="note">
+                    📢 <b>Note :</b> Nous vous contacterons par téléphone pour confirmer votre commande avant la livraison.
+                </div>
+                <button type="submit" class="btn-add" data-t="confirm_btn">CONFIRMER L'ACHAT</button>
             </form>
         </div>
     </div>
 
     <script>
+        const translations = {
+            fr: {
+                my_cart: "Mon Panier", p1_title: "SUPPORT TÉLÉPHONE PC", p2_title: "ORGANISATEUR CÂBLES", 
+                add_to_cart: "AJOUTER AU PANIER", my_cart_title: "VOTRE PANIER", total: "Total", 
+                checkout_btn: "VALIDER LA COMMANDE", close: "Fermer", delivery: "LIVRAISON", 
+                confirm_btn: "CONFIRMER L'ACHAT", name_ph: "Nom Complet", commune_ph: "Commune",
+                note: "📢 <b>Note :</b> Nous vous contacterons par téléphone pour confirmer votre commande avant la livraison.",
+                offer_1: "1 Unité - 600 DA", offer_2: "2 Unités - 1000 DA (PROMO)"
+            },
+            ar: {
+                my_cart: "سلة التسوق", p1_title: "حامل الهاتف للكمبيوتر", p2_title: "منظم الكابلات", 
+                add_to_cart: "أضف إلى السلة", my_cart_title: "سلتي", total: "المجموع", 
+                checkout_btn: "إتمام الطلب", close: "إغلاق", delivery: "معلومات التوصيل", 
+                confirm_btn: "تأكيد الشراء", name_ph: "الاسم الكامل", commune_ph: "البلدية",
+                note: "📢 <b>ملاحظة:</b> سنتصل بك عبر الهاتف لتأكيد طلبك قبل التوصيل.",
+                offer_1: "قطعة واحدة - 600 دج", offer_2: "قطعتين - 1000 دج (تخفيض)"
+            }
+        };
+
+        let currentLang = 'fr';
+        function toggleLang() {
+            currentLang = (currentLang === 'fr') ? 'ar' : 'fr';
+            document.body.dir = (currentLang === 'ar') ? 'rtl' : 'ltr';
+            document.querySelectorAll('[data-t]').forEach(el => {
+                const key = el.getAttribute('data-t');
+                el.innerHTML = translations[currentLang][key];
+            });
+            document.getElementById('input-name').placeholder = translations[currentLang].name_ph;
+            document.getElementById('input-commune').placeholder = translations[currentLang].commune_ph;
+        }
+
         const wilayas = ["01 Adrar","02 Chlef","03 Laghouat","04 Oum El Bouaghi","05 Batna","06 Béjaïa","07 Biskra","08 Béchar","09 Blida","10 Bouira","11 Tamanrasset","12 Tébessa","13 Tlemcen","14 Tiaret","15 Tizi Ouzou","16 Alger","17 Djelfa","18 Jijel","19 Sétif","20 Saïda","21 Skikda","22 Sidi Bel Abbès","23 Annaba","24 Guelma","25 Constantine","26 Médéa","27 Mostaganem","28 M'Sila","29 Mascara","30 Ouargla","31 Oran","32 El Bayadh","33 Illizi","34 Bordj Bou Arreridj","35 Boumerdès","36 El Tarf","37 Tindouf","38 Tissemsilt","39 El Oued","40 Khenchela","41 Souk Ahras","42 Tipaza","43 Mila","44 Aïn Defla","45 Naâma","46 Aïn Témouchent","47 Ghardaïa","48 Relizane","49 El M'Ghair","50 El Meniaa","51 Ouled Djellal","52 Bordj Baji Mokhtar","53 Béni Abbès","54 Timimoun","55 Touggourt","56 Djanet","57 In Salah","58 In Guezzam"];
         const ws = document.getElementById('wilaya-select');
         wilayas.forEach(w => { let o = document.createElement('option'); o.value=w; o.text=w; ws.add(o); });
@@ -216,7 +222,7 @@
 
         function getTargetQty(id) {
             const select = document.getElementById('offer-' + id);
-            return select ? parseInt(select.options[select.selectedIndex].dataset.qty) : 1;
+            return parseInt(select.options[select.selectedIndex].dataset.qty);
         }
 
         function selectColor(el, max) {
@@ -233,11 +239,8 @@
                 if (currentSelected < max) {
                     let badge = el.querySelector('.dot-count');
                     let count = parseInt(badge.innerText) + 1;
-                    badge.innerText = count;
-                    badge.style.display = 'block';
+                    badge.innerText = count; badge.style.display = 'block';
                     el.classList.add('selected');
-                } else {
-                    notify("2 couleurs déjà sélectionnées", "orange");
                 }
             }
         }
@@ -264,12 +267,12 @@
             let color = "Standard";
             if(!noColor) {
                 const dot = document.querySelector(`#${id} .dot.selected`);
-                if(!dot) { notify("⚠️ CHOISISSEZ UNE COULEUR", "red"); return; }
+                if(!dot) { notify(currentLang === 'fr' ? "CHOISISSEZ UNE COULEUR" : "اختر اللون", "red"); return; }
                 color = dot.getAttribute('data-color');
             }
             cart.push({name, price, color});
             updateCartUI();
-            notify("AJOUTÉ ✅", "green");
+            notify("✅", "green");
         }
 
         function addSuccionPad() {
@@ -277,17 +280,16 @@
             const price = parseInt(select.value);
             const qty = parseInt(select.options[select.selectedIndex].dataset.qty);
             let colors = [];
-            const dots = document.querySelectorAll('#p3 .dot');
-            dots.forEach(d => {
+            document.querySelectorAll('#p3 .dot').forEach(d => {
                 let count = parseInt(d.querySelector('.dot-count').innerText);
                 if (qty === 1 && d.classList.contains('selected')) colors.push(d.dataset.color);
                 else for(let i=0; i<count; i++) colors.push(d.dataset.color);
             });
-            if(colors.length < qty) { notify(`⚠️ CHOISISSEZ ${qty} COULEUR(S)`, "red"); return; }
+            if(colors.length < qty) { notify(currentLang === 'fr' ? "CHOISISSEZ LA COULEUR" : "اختر اللون", "red"); return; }
             cart.push({name: `Succion Pad (x${qty})`, price: price, color: colors.join(' + ')});
             updateCartUI();
             resetColors('p3');
-            notify("PACK AJOUTÉ ✅", "green");
+            notify("✅", "green");
         }
 
         function removeFromCart(index) {
@@ -312,7 +314,7 @@
             cart.forEach((i, index) => {
                 l.innerHTML += `
                     <div class="cart-item">
-                        <div style="text-align:left"><b>${i.name}</b><br><small>Couleur: ${i.color}</small></div>
+                        <div style="text-align:${currentLang === 'ar' ? 'right' : 'left'}"><b>${i.name}</b><br><small>${i.color}</small></div>
                         <div style="display:flex; align-items:center;">
                             <b>${i.price} DA</b> 
                             <span class="del-btn" onclick="removeFromCart(${index})">✖</span>
@@ -333,9 +335,9 @@
         async function handleFormSubmit(e) {
             e.preventDefault();
             const tel = document.getElementById('user-tel').value.trim();
-            if (!/^(05|06|07)[0-9]{8}$/.test(tel)) { alert("Numéro invalide"); return; }
+            if (!/^(05|06|07)[0-9]{8}$/.test(tel)) { alert("Numéro invalide / رقم غير صحيح"); return; }
             fetch(e.target.action, { method: 'POST', body: new FormData(e.target), headers: { 'Accept': 'application/json' } })
-            .then(res => { if(res.ok) { notify("COMMANDE REÇUE !"); location.reload(); } });
+            .then(res => { if(res.ok) { alert(currentLang === 'fr' ? "Commande reçue !" : "تم استقبال طلبكم بنجاح"); location.reload(); } });
         }
     </script>
 </body>
