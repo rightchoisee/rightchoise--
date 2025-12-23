@@ -14,22 +14,40 @@
 
         body { background-color: var(--main-bg); color: var(--dark-blue); font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; }
 
+        /* --- HEADER : LOGO À GAUCHE --- */
         header {
-            display: flex; align-items: center; justify-content: center;
-            background: #ffffff; border-bottom: 3px solid var(--accent-orange);
-            position: sticky; top: 0; z-index: 1000; height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* Espace entre logo et panier */
+            background: #ffffff;
+            border-bottom: 3px solid var(--accent-orange);
+            position: sticky; top: 0; z-index: 1000;
+            height: 80px;
+            padding: 0 15px; /* Marge sur les côtés */
         }
 
-        .logo-container { height: 100%; display: flex; justify-content: center; align-items: center; width: 300px; }
-        .logo-container img { width: 100%; max-height: 65px; object-fit: contain; }
+        .logo-container { 
+            height: 100%; 
+            display: flex; 
+            align-items: center; 
+            width: 300px; /* Garde la même dimension horizontale */
+            justify-content: flex-start; /* Aligne le logo à gauche dans son bac */
+        }
 
-        /* --- BOUTON PANIER AVEC TEXTE --- */
+        .logo-container img { 
+            width: 100%; 
+            max-height: 65px; 
+            object-fit: contain; 
+        }
+
         .cart-btn {
-            position: absolute; right: 15px; background: var(--accent-orange);
+            background: var(--accent-orange);
             color: white; border: none; padding: 10px 15px; border-radius: 10px; 
             cursor: pointer; font-weight: bold; display: flex; align-items: center; gap: 8px;
+            flex-shrink: 0;
         }
 
+        /* --- NOTIFICATIONS --- */
         #custom-alert {
             display: none; position: fixed; top: 90px; left: 50%; transform: translateX(-50%);
             min-width: 280px; background: white; padding: 15px; border-radius: 8px;
@@ -37,6 +55,7 @@
             box-shadow: 0 5px 20px rgba(0,0,0,0.1);
         }
 
+        /* --- GRILLE PRODUITS --- */
         .container { padding: 30px 10px; display: flex; flex-direction: column; align-items: center; }
         .grid { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; width: 100%; max-width: 1200px; }
 
@@ -63,6 +82,7 @@
             padding: 16px; border-radius: 12px; cursor: pointer; font-weight: bold; text-transform: uppercase;
         }
 
+        /* --- SELECTEUR COULEURS --- */
         .color-selector { display: flex; justify-content: center; gap: 12px; margin: 15px 0; flex-wrap: wrap; }
         .dot { width: 30px; height: 30px; border-radius: 50%; border: 2px solid #eee; cursor: pointer; position: relative; }
         .dot.selected { border: 3px solid var(--dark-blue); transform: scale(1.2); }
@@ -73,6 +93,7 @@
 
         .offer-select { margin-bottom: 15px; padding: 12px; border-radius: 10px; border: 2px solid var(--accent-orange); width: 100%; font-weight: bold; cursor: pointer; }
 
+        /* --- MODALS --- */
         #cart-modal, #checkout-page { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; }
         .modal-content { background: white; width: 90%; max-width: 400px; margin: 50px auto; padding: 25px; border-radius: 20px; text-align: center; }
 
@@ -84,7 +105,6 @@
             font-weight: bold; 
             font-size: 1.4rem; 
             margin-left: 15px;
-            transition: 0.2s;
         }
         
         input, select { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
@@ -95,7 +115,9 @@
     <div id="custom-alert"></div>
 
     <header>
-        <div class="logo-container"><img src="rightchoise.jpg" alt="Logo"></div>
+        <div class="logo-container">
+            <img src="rightchoise.jpg" alt="Logo">
+        </div>
         <button class="cart-btn" onclick="toggleCart()">
             🛒 Mon Panier (<span id="cart-count">0</span>)
         </button>
@@ -180,7 +202,7 @@
     </div>
 
     <script>
-        const wilayas = ["01 Adrar","02 Chlef","03 Laghouat","04 Oum El Bouaghi","05 Batna","06 Béjaïa","07 Biskra","08 Béchar","09 Blida","10 Bouira","11 Tamanrasset","12 Tébessa","13 Tlemcen","14 Tiaret","15 Tizi Ouzou","16 Alger","17 Djelfa","18 Jijel","19 Sétif","20 Saïda","21 Skikda","22 Sidi Bel Abbès","23 Annaba","24 Guelma","25 Constantine","26 Médéa","27 Mostaganem","28 M'Sila","29 Mascara","30 Ouargla","31 Oran","32 El Bayadh","33 Illizi","34 Bordj Bou Arreridj","35 Tandouf","36 El Tarf","37 Tindouf","38 Tissemsilt","39 El Oued","40 Khenchela","41 Souk Ahras","42 Tipaza","43 Mila","44 Aïn Defla","45 Naâma","46 Aïn Témouchent","47 Ghardaïa","48 Relizane","49 El M'Ghair","50 El Meniaa","51 Ouled Djellal","52 Bordj Baji Mokhtar","53 Béni Abbès","54 Timimoun","55 Touggourt","56 Djanet","57 In Salah","58 In Guezzam"];
+        const wilayas = ["01 Adrar","02 Chlef","03 Laghouat","04 Oum El Bouaghi","05 Batna","06 Béjaïa","07 Biskra","08 Béchar","09 Blida","10 Bouira","11 Tamanrasset","12 Tébessa","13 Tlemcen","14 Tiaret","15 Tizi Ouzou","16 Alger","17 Djelfa","18 Jijel","19 Sétif","20 Saïda","21 Skikda","22 Sidi Bel Abbès","23 Annaba","24 Guelma","25 Constantine","26 Médéa","27 Mostaganem","28 M'Sila","29 Mascara","30 Ouargla","31 Oran","32 El Bayadh","33 Illizi","34 Bordj Bou Arreridj","35 Boumerdès","36 El Tarf","37 Tindouf","38 Tissemsilt","39 El Oued","40 Khenchela","41 Souk Ahras","42 Tipaza","43 Mila","44 Aïn Defla","45 Naâma","46 Aïn Témouchent","47 Ghardaïa","48 Relizane","49 El M'Ghair","50 El Meniaa","51 Ouled Djellal","52 Bordj Baji Mokhtar","53 Béni Abbès","54 Timimoun","55 Touggourt","56 Djanet","57 In Salah","58 In Guezzam"];
         const ws = document.getElementById('wilaya-select');
         wilayas.forEach(w => { let o = document.createElement('option'); o.value=w; o.text=w; ws.add(o); });
 
